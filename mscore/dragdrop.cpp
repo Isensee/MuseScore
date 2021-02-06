@@ -395,6 +395,7 @@ void ScoreView::dragMoveEvent(QDragMoveEvent* event)
             case ElementType::FRET_DIAGRAM:
             case ElementType::STAFFTYPE_CHANGE:
                   event->setAccepted(getDropTarget(editData));
+                  _score->QObject::setProperty("AltModifier", qApp->keyboardModifiers().testFlag(Qt::AltModifier)); // ise acc
                   break;
             default:
                   if (MScore::debugMode)

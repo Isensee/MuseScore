@@ -384,8 +384,18 @@ class Note final : public Element {
       int tpc2default(int pitch) const;
       int transposeTpc(int tpc);
 
+      // ise transp
+            void undoSetTpcFromPitch();
+            void undoSetPitch(int val);
+
+            void undoSetTpc1(int tpc);    //  { undoChangeProperty(Pid::TPC1, tpc); }
+            void undoSetTpc2(int tpc);    //  { undoChangeProperty(Pid::TPC2, tpc); }
+      // end ise
+
       Accidental* accidental() const      { return _accidental; }
       void setAccidental(Accidental* a)   { _accidental = a;    }
+
+      void updatePitch(int pitch, int tcp); // ise acc
 
       AccidentalType accidentalType() const;
       void setAccidentalType(AccidentalType type);

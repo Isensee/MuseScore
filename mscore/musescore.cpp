@@ -6533,6 +6533,16 @@ void MuseScore::cmd(QAction* a, const QString& cmd)
             if (_textTools)
                   _textTools->toggleUnderline();
             }
+      // ise acc
+      else if (cmd == "alt-delete"){
+            cv->score()->QObject::setProperty("AltModifier", true);
+            foreach(Element* el, cv->score()->selection().elements()) {
+                  if(el->type() == ElementType::ACCIDENTAL)
+                        cv->score()->changeAccidental(static_cast<Note*>(el->parent()), AccidentalType::NONE);
+                  }
+            cv->score()->QObject::setProperty("AltModifier", false);
+            }
+     // end ise
       else if (cmd == "edit-toolbars")
             showToolbarEditor();
       else if (cmd == "viewmode") {
@@ -6618,6 +6628,7 @@ void MuseScore::cmd(QAction* a, const QString& cmd)
 #endif
       else {
             if (cv) {
+                  cv->score()->QObject::setProperty("AltModifier", qApp->keyboardModifiers().testFlag(Qt::AltModifier)); // ise acc
                   //isAncestorOf is called to see if a widget from inspector has focus
                   //if so, the focus doesn't get shifted to the score, unless escape is
                   //pressed, or the user clicks in the score

@@ -4082,6 +4082,9 @@ void ScoreView::addSlur(ChordRest* cr1, ChordRest* cr2, const Slur* slurTemplate
       slur->setStartElement(cr1);
       slur->setEndElement(cr2);
 
+      if(cr1->isGrace() || cr2->isGrace())  // ise grace auto slur
+            slur->setSlurDirection(Direction::DOWN);
+
       cr1->score()->undoAddElement(slur);
       SlurSegment* ss = new SlurSegment(cr1->score());
       ss->setSpannerSegmentType(SpannerSegmentType::SINGLE);

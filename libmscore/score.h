@@ -28,6 +28,7 @@
 #include "layoutbreak.h"
 #include "property.h"
 #include "sym.h"
+#include "accidental.h" // ise acc
 
 namespace Ms {
 
@@ -490,6 +491,8 @@ class Score : public QObject, public ScoreElement {
       QString accInfo;                    ///< information about selected element(s) for use by screen-readers
       QString accMessage;                 ///< temporary status message for use by screen-readers
 
+      //      IconType _graceInputState;    // ise grace input
+
       //------------------
 
       ChordRest* nextMeasure(ChordRest* element, bool selectBehavior = false, bool mmRest = false);
@@ -731,6 +734,7 @@ class Score : public QObject, public ScoreElement {
       Note* addTiedMidiPitch(int pitch, bool addFlag, Chord* prevChord);
       Note* addMidiPitch(int pitch, bool addFlag);
       Note* addNote(Chord*, const NoteVal& noteVal, bool forceAccidental = false, InputState* externalInputState = nullptr);
+      void updatePitches(Segment*, int, int, int, int, int, AccidentalType); // ise acc
 
       NoteVal noteValForPosition(Position pos, AccidentalType at, bool &error);
 
@@ -1164,7 +1168,7 @@ class Score : public QObject, public ScoreElement {
       void setNoteHeadWidth( qreal n) { _noteHeadWidth = n; }
 
       QList<int> uniqueStaves() const;
-      void transpositionChanged(Part*, Interval, Fraction tickStart = { 0, 1 }, Fraction tickEnd = { -1, 1 } );
+      void transpositionChanged(Part*, Interval, Fraction tickStart = { 0, 1 }, Fraction tickEnd = { -1, 1 } , bool transpose = true);  // ise trans, );
 
       void moveUp(ChordRest*);
       void moveDown(ChordRest*);
@@ -1248,6 +1252,13 @@ class Score : public QObject, public ScoreElement {
       void createBeams(LayoutContext&, Measure*);
 
       constexpr static double defaultTempo()  { return _defaultTempo; }
+
+      //      IconType getGraceInputState() {return _graceInputState;}// ise grace input
+      //      void setGraceInputState(IconType type) {_graceInputState = type;}  // ise grace input
+      //      NoteType iconTypeToNoteType(IconType);                // ise grace input
+      //      int iconTypeToLen(IconType iType);               // ise grace input
+      //      TDuration iconTypeToDuration(IconType iType);  // ise grace input
+      //      SymId iconTypeToSymId(IconType iType); // ise grace input
 
       friend class ChangeSynthesizerState;
       friend class Chord;

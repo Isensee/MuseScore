@@ -724,6 +724,15 @@ int Note::tpc1default(int p) const
       }
 
 //---------------------------------------------------------
+//   undoSetPitch    // ise reaktiviert für trans
+//---------------------------------------------------------
+
+void Note::undoSetPitch(int p)
+      {
+      undoChangeProperty(Pid::PITCH, p);
+      }
+
+//---------------------------------------------------------
 //   tpc2default
 //---------------------------------------------------------
 
@@ -763,6 +772,44 @@ void Note::setTpcFromPitch()
       else {
             v.flip();
             _tpc[1] = Ms::transposeTpc(_tpc[0], v, true);
+            }
+      Q_ASSERT(tpcIsValid(_tpc[0]));
+      Q_ASSERT(tpcIsValid(_tpc[1]));
+      }
+
+void Note::undoSetTpc1(int tpc)      { undoChangeProperty(Pid::TPC1, tpc); } // ise transp
+void Note::undoSetTpc2(int tpc)      { undoChangeProperty(Pid::TPC2, tpc); } // ise transp
+
+//---------------------------------------------------------
+//   undoSetTpcFromPitch  // ise transp
+//---------------------------------------------------------
+
+void Note::undoSetTpcFromPitch()
+      {
+      // works best if note is already added to score, otherwise we can't determine transposition or key
+      Fraction tick = chord() ? chord()->tick() : Fraction(-1,1);
+      Interval v = staff() ? part()->instrument(tick)->transpose() : Interval();
+      Key key = (staff() && chord()) ? staff()->key(chord()->tick()) : Key::C;
+      // convert key to concert pitch
+      if (!concertPitch() && !v.isZero())
+            key = transposeKey(key, v);
+      // set concert pitch tpc
+//      undoSetTpc1(pitch2tpc(_pitch, key, Prefer::NEAREST));
+//      undoChangeProperty(Pid::TPC1, pitch2tpc(_pitch), key, Prefer::NEAREST));
+      undoChangeProperty(Pid::TPC1, pitch2tpc(getProperty(Pid::PITCH).toInt(), key, Prefer::NEAREST));
+
+
+      // set transposed tpc
+      if (v.isZero())
+//      undoSetTpc2(_tpc[0]);
+//            undoChangeProperty(Pid::TPC2, pitch2tpc(_pitch, key, Prefer::NEAREST));
+
+        undoChangeProperty(Pid::TPC1, pitch2tpc(getProperty(Pid::PITCH).toInt(), key, Prefer::NEAREST));
+      else {
+            v.flip();
+//            undoSetTpc2(Ms::transposeTpc(_tpc[0], v, true));
+//            undoChangeProperty(Pid::TPC2, pitch2tpc(_pitch, key, Prefer::NEAREST));
+            undoChangeProperty(Pid::TPC1, pitch2tpc(getProperty(Pid::PITCH).toInt(), key, Prefer::NEAREST));
             }
       Q_ASSERT(tpcIsValid(_tpc[0]));
       Q_ASSERT(tpcIsValid(_tpc[1]));
@@ -2158,6 +2205,12 @@ bool Note::dotIsUp() const
 void Note::updateAccidental(AccidentalState* as)
       {
       int relLine = absStep(tpc(), epitch());
+
+      // ise acc
+      // avoid "in between" update in case of update acc. with alt key pressed
+      if(score()->property("AltModifier").toBool())
+            return;
+      // end ise
 
       // don't touch accidentals that don't concern tpc such as
       // quarter tones

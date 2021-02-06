@@ -103,11 +103,22 @@ SymId ShadowNote::getNoteFlag() const
 
 bool ShadowNote::computeUp() const
       {
+    //      if (_isGrace) // ise grace input
+    //            return true;      if (_voice % VOICES == 0)
       if (_voice % VOICES == 0)
             return _line > 4;
       else
             return _voice % VOICES == 2;
       }
+
+////---------------------------------------------------------
+////   setGrace             // ise grace input, ganze Fu.
+////---------------------------------------------------------
+//void ShadowNote::setGrace(bool grace)
+//      {
+//      _isGrace = grace;
+//      setMag(grace ? masterScore()->styleD(Sid::graceNoteMag) : 1);
+//      }
 
 //---------------------------------------------------------
 //   draw

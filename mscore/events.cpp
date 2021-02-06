@@ -341,6 +341,7 @@ void ScoreView::mouseReleaseEvent(QMouseEvent* mouseEvent)
                   break;
             case ViewState::EDIT:
             case ViewState::NOTE_ENTRY:
+          //            case ViewState::GRACE_NOTE_ENTRY:     // ise grace
             case ViewState::PLAY:
             case ViewState::ENTRY_PLAY:
             case ViewState::FOTO:
@@ -401,6 +402,14 @@ void ScoreView::mousePressEventNormal(QMouseEvent* ev)
                               }
                         }
                   }
+
+            // ise drag: Hier hatte ich mal was mit
+//            Qt::KeyboardModifiers km = qApp->keyboardModifiers();
+
+//            if (st == SelectType::ADD /*&& e->selected()*/  && km != (Qt::ControlModifier | Qt::AltModifier)) {
+//                      e->score()->deselect(e);
+//              , jetzt ist aber alles anders.
+
             else {
                   if (st == SelectType::ADD) {
                         // convert range to list
@@ -465,6 +474,13 @@ void ScoreView::mousePressEventNormal(QMouseEvent* ev)
             else if (st == SelectType::SINGLE)
                   modifySelection = true;
             }
+
+      // ise autoplace: war mal drin, hier ist aber alles anders. Noch brauchbar?
+//      for (Element* e : _score->selection().elements()) {
+//            e->setAutoplace(false);
+//            }
+      // end ise
+
       _score->update();
       mscore->endCmd();
       }
@@ -558,6 +574,7 @@ void ScoreView::mousePressEvent(QMouseEvent* ev)
                   break;
 
             case ViewState::NOTE_ENTRY: {
+//            case ViewState::GRACE_NOTE_ENTRY: {       // ise grace!
                   _score->startCmd();
                   bool restMode = _score->inputState().rest();
                   if (ev->button() == Qt::RightButton)
@@ -1074,6 +1091,7 @@ static const char* stateName(ViewState s)
             case ViewState::DRAG_EDIT:          return "DRAG_EDIT";
             case ViewState::LASSO:              return "LASSO";
             case ViewState::NOTE_ENTRY:         return "NOTE_ENTRY";
+          //            case ViewState::GRACE_NOTE_ENTRY:   return "GRACE_NOTE_ENTRY";     // ise grace
             case ViewState::PLAY:               return "PLAY";
             case ViewState::ENTRY_PLAY:         return "ENTRY_PLAY";
             case ViewState::FOTO:               return "FOTO";
@@ -1181,6 +1199,7 @@ void ScoreView::changeState(ViewState s)
                   setCursor(QCursor(Qt::SizeAllCursor));
                   break;
             case ViewState::NOTE_ENTRY:
+          //            case ViewState::GRACE_NOTE_ENTRY:             // ise Grace
                   setCursor(QCursor(Qt::ArrowCursor));
                   startNoteEntry();
                   break;

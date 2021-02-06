@@ -92,6 +92,19 @@ Shortcut Shortcut::_sc[] = {
          Qt::WindowShortcut,
          ShortcutFlags::A_SCORE
          },
+    // ise acc
+     {
+       MsWidget::SCORE_TAB,
+       STATE_NORMAL,
+       "alt-delete",
+       QT_TRANSLATE_NOOP("action","Alt-Del pressed"),
+       QT_TRANSLATE_NOOP("action","Alt-Del pressed"),
+       QT_TRANSLATE_NOOP("action","Alt-Del pressed"),
+       Icons::Invalid_ICON,
+       Qt::WindowShortcut,
+       ShortcutFlags::A_CMD
+       },
+    // end ise
       {
          MsWidget::MAIN_WINDOW,
          STATE_NORMAL | STATE_NOTE_ENTRY | STATE_EDIT | STATE_PLAY,

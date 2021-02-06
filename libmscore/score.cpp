@@ -259,6 +259,10 @@ Score::Score()
 
       _fileDivision           = MScore::division;
       _style  = MScore::defaultStyle();
+
+      //      _graceInputState = IconType::NONE;   // ise grace input
+      //      accInfo = tr("No selection");     // ??
+
 //      accInfo = tr("No selection");     // ??
       accInfo = "No selection";
       _scoreOrder = nullptr;
@@ -4749,6 +4753,125 @@ void Score::changeVoice(int voice)
       setLayoutAll();
       endCmd();
       }
+////---------------------------------------------------------
+////   iconTypeToNoteType   // ise grace input, ganze Funk.
+/////  IconType is transformed to NoteType
+////---------------------------------------------------------
+
+//NoteType Score::iconTypeToNoteType(IconType iType)
+//      {
+//          switch(iType)  {
+//                case IconType::ACCIACCATURA:
+//                      return NoteType::ACCIACCATURA;
+//                case IconType::APPOGGIATURA:
+//                      return NoteType::APPOGGIATURA;
+//                case IconType::GRACE4:
+//                      return NoteType::GRACE4;
+//                case IconType::GRACE16:
+//                      return NoteType::GRACE16;
+//                case IconType::GRACE32:
+//                      return NoteType::GRACE32;
+//                case IconType::GRACE8_AFTER:
+//                      return NoteType::GRACE8_AFTER;
+//                case IconType::GRACE16_AFTER:
+//                      return NoteType::GRACE16_AFTER;
+//                case IconType::GRACE32_AFTER:
+//                      return NoteType::GRACE32_AFTER;
+//                default:
+//                      return NoteType::NORMAL;
+//          }
+
+//      }
+
+////---------------------------------------------------------
+////   iconTypeToDuration   // ise grace input, ganze Funk.
+/////  IconType is transformed to DurationType
+////---------------------------------------------------------
+
+//TDuration Score::iconTypeToDuration(IconType iType)
+//      {
+//          switch(iType)  {
+//                case IconType::ACCIACCATURA:
+//                      return TDuration(TDuration::DurationType::V_EIGHTH);
+//                case IconType::APPOGGIATURA:
+//                      return TDuration(TDuration::DurationType::V_EIGHTH);
+//                case IconType::GRACE4:
+//                      return TDuration(TDuration::DurationType::V_QUARTER);
+//                case IconType::GRACE16:
+//                      return TDuration(TDuration::DurationType::V_16TH);
+//                case IconType::GRACE32:
+//                      return TDuration(TDuration::DurationType::V_32ND);
+//                case IconType::GRACE8_AFTER:
+//                      return TDuration(TDuration::DurationType::V_EIGHTH);
+//                case IconType::GRACE16_AFTER:
+//                      return TDuration(TDuration::DurationType::V_16TH);
+//                case IconType::GRACE32_AFTER:
+//                      return TDuration(TDuration::DurationType::V_32ND);
+//                default:
+//                      return TDuration(TDuration::DurationType::V_INVALID);
+//          }
+
+//      }
+
+////---------------------------------------------------------
+////   iconTypeToSymId   // ise grace input, ganze Funk.
+/////  IconType is transformed to SymId
+////---------------------------------------------------------
+
+//SymId Score::iconTypeToSymId(IconType iType)
+//      {
+//          switch(iType)  {
+//                case IconType::ACCIACCATURA:
+//                      return SymId::note8thUp;
+//                case IconType::APPOGGIATURA:
+//                      return SymId::note8thUp;
+//                case IconType::GRACE4:
+//                      return SymId::noteQuarterUp;
+//                case IconType::GRACE16:
+//                      return SymId::note16thUp;
+//                case IconType::GRACE32:
+//                      return SymId::note32ndUp;
+//                case IconType::GRACE8_AFTER:
+//                      return SymId::note8thUp;
+//                case IconType::GRACE16_AFTER:
+//                      return SymId::note16thUp;
+//                case IconType::GRACE32_AFTER:
+//                      return SymId::note32ndUp;
+//                default:
+//                      return SymId::noSym;
+//          }
+
+//      }
+
+////---------------------------------------------------------
+////   iconTypeToLen   // ise grace input, ganze Funk.
+/////  Get note lengh from iconType
+////---------------------------------------------------------
+
+//int Score::iconTypeToLen(IconType iType)
+//      {
+//          switch(iType)  {
+//            case IconType::ACCIACCATURA:
+//                  return MScore::division/2;
+//            case IconType::APPOGGIATURA:
+//                  return MScore::division/2;
+//            case IconType::GRACE4:
+//                  return MScore::division;
+//            case IconType::GRACE16:
+//                  return MScore::division/4;
+//            case IconType::GRACE32:
+//                  return MScore::division/8;
+//            case IconType::GRACE8_AFTER:
+//                  return MScore::division/2;
+//            case IconType::GRACE16_AFTER:
+//                  return MScore::division/4;
+//            case IconType::GRACE32_AFTER:
+//                  return MScore::division/8;
+//            default:
+//                  return -1;
+//                }
+//      }
+
 
 #if 0
 //---------------------------------------------------------
@@ -4850,6 +4973,22 @@ QString Score::getTextStyleUserName(Tid tid)
             name = textStyleUserName(tid);
       return name;
       }
+
+//---------------------------------------------------------
+//   updatePitches // ise acc ganze Funk
+//---------------------------------------------------------
+
+void Score::updatePitches(Segment* segment, int staffIdx, int pitch, int tpc1, int tpc2, int line, AccidentalType accidental)
+       {
+       Measure* m = segment->measure();
+       for (Segment* seg = segment->next(); seg; seg = seg->next()) {           // alters the following notes on the same line
+             if(seg->measure() == m->nextMeasure())
+                   return;
+             if (seg->segmentType() & (SegmentType::ChordRest))
+                    if(! m->updatePitches(seg, staffIdx, pitch, tpc1, tpc2, line, accidental))
+                          break;
+             }
+       }
 
 //---------------------------------------------------------
 //   MasterScore

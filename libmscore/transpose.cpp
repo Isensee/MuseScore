@@ -713,8 +713,8 @@ void Score::transposeDiatonicAlterations(TransposeDirection direction)
 //   transpositionChanged
 //---------------------------------------------------------
 
-void Score::transpositionChanged(Part* part, Interval oldV, Fraction tickStart, Fraction tickEnd)
-      {
+void Score::transpositionChanged(Part* part, Interval oldV, Fraction tickStart, Fraction tickEnd, bool transpose) // ise trans, bool eing.
+{
       if (tickStart == Fraction(-1,1))
             tickStart = Fraction(0,1);
       Interval v = part->instrument(tickStart)->transpose();
@@ -752,13 +752,32 @@ void Score::transpositionChanged(Part* part, Interval oldV, Fraction tickStart, 
                               Chord* c = toChord(e);
                               for (Chord* gc : c->graceNotes()) {
                                     for (Note* n : gc->notes()) {
-                                          int tpc = transposeTpc(n->tpc1(), v, true);
-                                          n->undoChangeProperty(Pid::TPC2, tpc);
-                                          }
+                                        // ise transp, "if not transpose" added
+                                                     if(transpose) {
+                                                           int tpc = transposeTpc(n->tpc1(), v, true);
+                                                           n->undoChangeProperty(Pid::TPC2, tpc);
+                                                           }
+                                                     else {
+                                                           int pitch = n->pitch() - diffV.chromatic;
+                                       //                     int pitch = (n->pitch() + n->transposition() - v.chromatic) >= 0 ? n->pitch() - n->transposition() - v.chromatic : 0;
+                                                           n->undoSetPitch(pitch);
+                                                           n->undoSetTpcFromPitch();
+                                                           }
+                                                     }            // end ise
                                     }
                               for (Note* n : c->notes()) {
-                                    int tpc = transposeTpc(n->tpc1(), v, true);
-                                    n->undoChangeProperty(Pid::TPC2, tpc);
+                                  // ise transp, "if not transpose" added
+                                        if(transpose) {
+                                              int tpc = transposeTpc(n->tpc1(), v, true);
+                           //                        n->undoSetTpc2(tpc);
+                                              n->undoChangeProperty(Pid::TPC2, tpc);
+                                              }
+                                         else {
+                                              int pitch = n->pitch() - diffV.chromatic;
+                   //                                             int pitch = (n->pitch() + n->transposition() - v.chromatic) >= 0 ? n->pitch() - n->transposition() - v.chromatic : 0;
+                                              n->undoSetPitch(pitch);
+                                              n->undoSetTpcFromPitch();
+                                              }                                 // end ise
                                     }
                               }
                         // find chord symbols

@@ -656,6 +656,20 @@ Note* Score::setGraceNote(Chord* ch, int pitch, NoteType type, int len)
       chord->setMag(ch->staff()->mag(chord->tick()) * styleD(Sid::graceNoteMag));
 
       undoAddElement(chord);
+      // ise grace auto slur
+      // set slur when Shift-Key pressed: läuft ok.
+      if(qApp->keyboardModifiers().testFlag(Qt::ShiftModifier)){
+            Chord* cg = ch->graceNotes().first();
+            if (viewer.count()) {
+                  if (cg->isGraceAfter())
+          //              score()->viewer[0]->cmdAddSlur(ch->notes()[0], cg->notes()[0]);
+                        score()->viewer[0]->addSlur(ch, cg, nullptr);
+                  else
+ //                 score()->viewer[0]->cmdAddSlur(cg->notes()[0], ch->notes()[0]);
+                        score()->viewer[0]->addSlur(cg, ch, nullptr);
+                        }
+            }
+//     // end ise
       select(note, SelectType::SINGLE, 0);
       return note;
       }
@@ -1747,7 +1761,16 @@ void Score::toggleAccidental(AccidentalType at, const EditData& ed)
 
 void Score::changeAccidental(AccidentalType idx)
       {
-      foreach(Note* note, selection().noteList())
+    //      foreach(Note* note, selection().noteList())
+    //            changeAccidental(note, idx);
+    // ise change accidental
+          bool altPressed = property("AltModifier").toBool();
+          foreach(Note* note, selection().noteList()) {
+                this->QObject::setProperty("AltModifier", altPressed);
+                changeAccidental(note, idx);
+                }
+          // end ise
+          foreach(Note* note, selection().noteList())
             changeAccidental(note, idx);
       }
 
@@ -1755,10 +1778,11 @@ void Score::changeAccidental(AccidentalType idx)
 //   changeAccidental2
 //---------------------------------------------------------
 
-static void changeAccidental2(Note* n, int pitch, int tpc)
+static void changeAccidental2(Note* n, int pitch, int tpc /* // ise acc: */, AccidentalType accidental = AccidentalType::NONE)
       {
       Score* score  = n->score();
       Chord* chord  = n->chord();
+      int staffIdx  = chord->staffIdx();   // ise acc
       Staff* st     = chord->staff();
       int fret      = n->fret();
       int string    = n->string();
@@ -1782,6 +1806,14 @@ static void changeAccidental2(Note* n, int pitch, int tpc)
             tpc1 = tpc2;
             tpc2 = tpc;
             }
+
+      // ise acc
+      // change pitches and tpc's for
+      // whole measure
+      if(score->property("AltModifier").toBool())
+            score->updatePitches(chord->segment(), staffIdx, pitch, tpc1, tpc2, n->line(), accidental);
+      score->QObject::setProperty("AltModifier", false);
+      // end ise
 
       if (!st->isTabStaff(chord->tick())) {
             //

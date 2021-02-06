@@ -87,6 +87,12 @@ void ScoreView::doDragElement(QMouseEvent* ev)
       editData.moveDelta = pt + (editData.normalizedStartMove - editData.startMove); // TODO: restructure
       editData.evtDelta = evtDelta;
       editData.pos     = logicalPos;
+            //      // ise drag, aber fraglich! ?????
+      for (Element* e : _score->selection().elements()) {
+//                                                     QRectF r = e->drag(editData);
+//                                                     _score->addRefresh(r);
+           _score->addRefresh(e->drag(editData));
+      }
 
       const Selection& sel = _score->selection();
 

@@ -36,6 +36,7 @@ class StaffLines final : public Element {
 
       QVector<QLineF>& getLines() { return lines; }
       Measure* measure() const { return (Measure*)parent(); }
+      QVector<QLineF> staffLines() { return lines; } // ise svg
       qreal y1() const;
       void layoutForWidth(qreal width);
       void layoutPartialWidth(qreal w, qreal wPartial, bool alignLeft);

@@ -381,6 +381,24 @@ void Palette::mousePressEvent(QMouseEvent* ev)
 */
       if (dragIdx == -1)
             return;
+      //      // ise grace input
+      //      // ise! current
+      //      if (_name == "Grace Notes" && ev->modifiers().testFlag(Qt::ControlModifier) // 2020
+      //                                /*&& !mscore->currentScoreView()->score()->inputState().noteEntryMode() last change */) {
+
+      //            // Want one single note to start grace notes input
+      //            const Selection sel = mscore->currentScoreView()->score()->selection();
+      //            if (sel.isNone() || ! sel.isSingle() || ! sel.elements().first()->isNote())
+      //                  return;
+
+      //            Element* e = cellAt(dragIdx)->element.get();
+      //            mscore->currentScore()->setGraceInputState(toIcon(e)->iconType());
+      //            mscore->currentScoreView()->changeState(ViewState::GRACE_NOTE_ENTRY); // ise grace!
+      //            return;
+      //            }
+
+      //      // end ise
+
       if (_selectable) {
             if (dragIdx != selectedIdx) {
                   update(idxRect(dragIdx) | idxRect(selectedIdx));
@@ -845,6 +863,11 @@ void Palette::mouseDoubleClickEvent(QMouseEvent* event)
       {
       if (_useDoubleClickToActivate)
             applyElementAtPosition(event->pos(), event->modifiers());
+      //      if (score == 0)
+      //            return;
+      //      if (score->selection().isNone())
+      //            return;
+      //      score->QObject::setProperty("AltModifier", false); // ise acc geht nicht mehr. Was tun?
       }
 
 //---------------------------------------------------------

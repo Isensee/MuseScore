@@ -409,7 +409,8 @@ QRectF Dynamic::drag(EditData& ed)
       // move anchor
       //
       Qt::KeyboardModifiers km = qApp->keyboardModifiers();
-      if (km != (Qt::ShiftModifier | Qt::ControlModifier)) {
+      if (km == (Qt::ControlModifier | Qt::AltModifier))         // ise drag
+      /*if (km != (Qt::ShiftModifier | Qt::ControlModifier))*/ {
             int si       = staffIdx();
             Segment* seg = segment();
             score()->dragPosition(canvasPos(), &si, &seg);

@@ -21,6 +21,7 @@
 #include "measurebase.h"
 #include "fraction.h"
 #include "segmentlist.h"
+#include "accidental.h"     // ise acc
 
 namespace Ms {
 
@@ -239,6 +240,8 @@ class Measure final : public MeasureBase {
       bool empty() const;
       bool isOnlyRests(int track) const;
       bool isOnlyDeletedRests(int track) const;
+
+      bool updatePitches(Segment* segment, int staffIdx, int pitch, int tcp1, int tcp2, int line, AccidentalType newAccType); // ise acc
 
       int playbackCount() const      { return _playbackCount; }
       void setPlaybackCount(int val) { _playbackCount = val; }

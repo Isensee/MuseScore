@@ -27,6 +27,8 @@ namespace Ms {
  which shows the note insert position in note entry mode.
 */
 
+//      bool _isGrace; // ise grace input
+
 class ShadowNote final : public Element {
       int _line;
       SymId _notehead;
@@ -48,8 +50,11 @@ class ShadowNote final : public Element {
 
       void setState(SymId noteSymbol, int voice, TDuration duration, bool rest = false);
 
-      SymId getNoteFlag() const;
-      bool computeUp() const;
+      //      void setGrace(bool grace);    // ise grace input
+
+     SymId getNoteFlag() const;
+
+     bool computeUp() const;
 
       SymId notehead() const { return _notehead; }
       bool isValid() const;

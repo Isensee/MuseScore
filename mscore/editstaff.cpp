@@ -15,6 +15,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+// ise transp: also modify editstaff.ui, add Checkbox doTranspose !!!!!
+
 //=============================================================================
 
 #include "editstaff.h"
@@ -399,7 +402,7 @@ void EditStaff::apply()
             emit instrumentChanged();
 
             if (v1 != v2)
-                  score->transpositionChanged(part, v2, _tickStart, _tickEnd);
+                score->transpositionChanged(part, v2, _tickStart, _tickEnd, doTranspose->isChecked());  // ise transposition
             }
 
       if (preferSharpFlatChanged)
