@@ -333,7 +333,7 @@ void ScoreView::elementPropertyAction(const QString& cmd, Element* e)
             }
       else if (cmd == "poet-text") {
             Text* t = new Text(score(), Tid::POET);
-            t->setPlainText(score()->metaTag("composer"));             // ise Title
+            t->setPlainText(score()->metaTag("lyricist"));             // ise Title
             t->setParent(e);
             score()->undoAddElement(t);
             score()->select(t, SelectType::SINGLE, 0);

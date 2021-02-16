@@ -4678,7 +4678,7 @@ void ScoreView::cmdAddText(Tid tid, Tid customTid, PropertyFlags pf, Placement p
                         break;
                   case Tid::POET:
                         {
-                        s->setPlainText(_score->metaTag("poet"));
+                        s->setPlainText(_score->metaTag("lyricist"));
                         }
                         break;
 
