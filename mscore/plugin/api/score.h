@@ -142,6 +142,7 @@ class Score : public Ms::PluginAPI::ScoreElement {
       int lyricCount() { return score()->lyricCount(); }
       QString lyricist() { return score()->metaTag("lyricist"); } // not the meanwhile obsolete "poet"
       QString title() { return score()->metaTag("workTitle"); }
+      QString subTitle() {return score()->metaTag("subTitle");}  // ise Title
       Ms::PluginAPI::Selection* selection() { return selectionWrap(&score()->selection()); }
       MStyle* style() { return wrap(&score()->style(), score()); }
       QString path() { return score()->importedFilePath(); }

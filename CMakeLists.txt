@@ -172,7 +172,7 @@ option(BUILD_PORTMIDI "Build with support for PortAudio's MIDI features." ${BUIL
 option(BUILD_PCH "Build using precompiled headers." ON)
 option(BUILD_FOR_WINSTORE "Build for the Windows Store." OFF)
 option(COVERAGE "Build with instrumentation to record code coverage." OFF)
-option(BUILD_64 "Build 64 bit version of editor" ON)
+option(BUILD_64 "Build 64 bit version of editor" OFF)
 option(BUILD_AUTOUPDATE "Build with autoupdate support" OFF)
 option(BUILD_CRASH_REPORTER "Build with crash reporter" OFF)
 option(BUILD_PORTABLEAPPS "Windows build for PortableApps.com" OFF)

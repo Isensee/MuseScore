@@ -310,12 +310,14 @@ void ScoreView::elementPropertyAction(const QString& cmd, Element* e)
       else if (cmd == "title-text") {
             Text* t = new Text(score(), Tid::TITLE);
             t->setParent(e);
+            t->setPlainText(score()->metaTag("workTitle"));             // ise Title
             score()->undoAddElement(t);
             score()->select(t, SelectType::SINGLE, 0);
             startEditMode(t);
             }
       else if (cmd == "subtitle-text") {
             Text* t = new Text(score(), Tid::SUBTITLE);
+            t->setPlainText(score()->metaTag("workNumber"));             // ise Title: "subtitle" taucht in den Score properties nicht auf, also nehme ich workNumber als Ersatz
             t->setParent(e);
             score()->undoAddElement(t);
             score()->select(t, SelectType::SINGLE, 0);
@@ -323,6 +325,7 @@ void ScoreView::elementPropertyAction(const QString& cmd, Element* e)
             }
       else if (cmd == "composer-text") {
             Text* t = new Text(score(), Tid::COMPOSER);
+            t->setPlainText(score()->metaTag("composer"));             // ise Title
             t->setParent(e);
             score()->undoAddElement(t);
             score()->select(t, SelectType::SINGLE, 0);
@@ -330,6 +333,7 @@ void ScoreView::elementPropertyAction(const QString& cmd, Element* e)
             }
       else if (cmd == "poet-text") {
             Text* t = new Text(score(), Tid::POET);
+            t->setPlainText(score()->metaTag("composer"));             // ise Title
             t->setParent(e);
             score()->undoAddElement(t);
             score()->select(t, SelectType::SINGLE, 0);

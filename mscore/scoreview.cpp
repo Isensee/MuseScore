@@ -4658,6 +4658,34 @@ void ScoreView::cmdAddText(Tid tid, Tid customTid, PropertyFlags pf, Placement p
                         measure = measure->prev();
                         }
                   s = new Text(_score, tid);
+
+// ise Title
+                  switch(tid) {
+                  case Tid::TITLE:
+                        {
+                        s->setPlainText(_score->metaTag("workTitle"));
+                        }
+                        break;
+                  case Tid::SUBTITLE:
+                        {
+                        s->setPlainText(_score->metaTag("workNumber"));            // ise Title: "subtitle" taucht in den Score properties nicht auf, also nehme ich workNumber als Ersatz
+                        }
+                        break;
+                  case Tid::COMPOSER:
+                        {
+                        s->setPlainText(_score->metaTag("composer"));
+                        }
+                        break;
+                  case Tid::POET:
+                        {
+                        s->setPlainText(_score->metaTag("poet"));
+                        }
+                        break;
+
+                  default:
+                        break;
+                  }
+// end ise
                   s->setParent(measure);
                   _score->undoAddElement(s);
                   }
