@@ -491,8 +491,6 @@ class Score : public QObject, public ScoreElement {
       QString accInfo;                    ///< information about selected element(s) for use by screen-readers
       QString accMessage;                 ///< temporary status message for use by screen-readers
 
-      //      IconType _graceInputState;    // ise grace input
-
       //------------------
 
       ChordRest* nextMeasure(ChordRest* element, bool selectBehavior = false, bool mmRest = false);
@@ -1252,13 +1250,6 @@ class Score : public QObject, public ScoreElement {
       void createBeams(LayoutContext&, Measure*);
 
       constexpr static double defaultTempo()  { return _defaultTempo; }
-
-      //      IconType getGraceInputState() {return _graceInputState;}// ise grace input
-      //      void setGraceInputState(IconType type) {_graceInputState = type;}  // ise grace input
-      //      NoteType iconTypeToNoteType(IconType);                // ise grace input
-      //      int iconTypeToLen(IconType iType);               // ise grace input
-      //      TDuration iconTypeToDuration(IconType iType);  // ise grace input
-      //      SymId iconTypeToSymId(IconType iType); // ise grace input
 
       friend class ChangeSynthesizerState;
       friend class Chord;

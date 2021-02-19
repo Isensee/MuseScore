@@ -365,18 +365,19 @@ void Score::putNote(const Position& p, bool replace)
       ChordRest* cr = _is.cr();
       bool addToChord = false;
 
-      //      // ise grace input
-      //      if(_graceInputState != IconType::NONE && selection().elements().count() == 1){
-      //            if (cr && cr->isChord()) {
-      //                        if(selection().element()->type() == ElementType::NOTE){
-      ////                       Note* n = static_cast<Note*>(selection().element());
-      //                        setGraceNote(toChord(cr), nval.pitch, iconTypeToNoteType(_graceInputState), iconTypeToLen(_graceInputState));
-      //                        score()->addRefresh(cr->canvasBoundingRect());   // benötigt?
-      //                        }
-      //                  }
-      //            return;
-      //            }
-      //// end ise
+      // ise grace 21
+
+      if (inputState().graceInputType != NoteType::NORMAL) {
+            if (cr && cr->isChord()) {
+                  if(selection().element()->type() == ElementType::NOTE){
+                      //  Note* n = static_cast<Note*>(selection().element());
+                        setGraceNote(toChord(cr), nval.pitch, inputState().graceInputType, inputState().graceInputLen);
+                        score()->addRefresh(cr->canvasBoundingRect());   // benötigt?
+                        }
+                  }
+                  return;
+            }
+      // end ise
 
       if (cr) {
             // retrieve total duration of current chord

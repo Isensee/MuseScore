@@ -1832,33 +1832,114 @@ Element* Note::drop(EditData& data)
                               }
                         }
                   }
+
                   break;
 
             case ElementType::ICON:
                   {
                   switch (toIcon(e)->iconType()) {
-                        case IconType::ACCIACCATURA:
+                        case IconType::ACCIACCATURA:                           
+// ise grace 21
+                              if (data.modifiers &  Qt::ShiftModifier)  {
+                                    score()->setNoteEntryMode(true);
+                                    score()->inputState().graceInputType = NoteType::ACCIACCATURA;
+                                    score()->inputState().graceInputLen = MScore::division/2;
+                                    data.view->startNoteEntryMode();
+                                    delete e;
+                                    return 0;
+                                    }
+// end ise
                               score()->setGraceNote(ch, pitch(), NoteType::ACCIACCATURA, MScore::division/2);
                               break;
                         case IconType::APPOGGIATURA:
+// ise grace 21
+                              if (data.modifiers &  Qt::ShiftModifier)  {
+                                    score()->setNoteEntryMode(true);
+                                    score()->inputState().graceInputType = NoteType::APPOGGIATURA;
+                                    score()->inputState().graceInputLen = MScore::division/2;
+                                    data.view->startNoteEntryMode();
+                                    delete e;
+                                    return 0;
+                                    }
+// end ise
                               score()->setGraceNote(ch, pitch(), NoteType::APPOGGIATURA, MScore::division/2);
                               break;
                         case IconType::GRACE4:
+// ise grace 21
+                              if (data.modifiers &  Qt::ShiftModifier)  {
+                                    score()->setNoteEntryMode(true);
+                                    score()->inputState().graceInputType = NoteType::GRACE4;
+                                    score()->inputState().graceInputLen = MScore::division;
+                                    data.view->startNoteEntryMode();
+                                    delete e;
+                                    return 0;
+                                    }
+// end ise
                               score()->setGraceNote(ch, pitch(), NoteType::GRACE4, MScore::division);
                               break;
                         case IconType::GRACE16:
+// ise grace 21
+                              if (data.modifiers &  Qt::ShiftModifier)  {
+                                    score()->setNoteEntryMode(true);
+                                    score()->inputState().graceInputType = NoteType::GRACE16;
+                                    score()->inputState().graceInputLen = MScore::division/4;
+                                    data.view->startNoteEntryMode();
+                                    delete e;
+                                    return 0;
+                                    }
+// end ise
                               score()->setGraceNote(ch, pitch(), NoteType::GRACE16,  MScore::division/4);
                               break;
                         case IconType::GRACE32:
+// ise grace 21
+                              if (data.modifiers &  Qt::ShiftModifier)  {
+                                    score()->setNoteEntryMode(true);
+                                    score()->inputState().graceInputType = NoteType::GRACE32;
+                                    score()->inputState().graceInputLen = MScore::division/8;
+                                    data.view->startNoteEntryMode();
+                                    delete e;
+                                    return 0;
+                                    }
+// end ise
                               score()->setGraceNote(ch, pitch(), NoteType::GRACE32, MScore::division/8);
                               break;
                         case IconType::GRACE8_AFTER:
+// ise grace 21
+                              if (data.modifiers &  Qt::ShiftModifier)  {
+                                    score()->setNoteEntryMode(true);
+                                    score()->inputState().graceInputType = NoteType::GRACE8_AFTER;
+                                    score()->inputState().graceInputLen = MScore::division/2;
+                                    data.view->startNoteEntryMode();
+                                    delete e;
+                                    return 0;
+                                    }
+// end ise
                               score()->setGraceNote(ch, pitch(), NoteType::GRACE8_AFTER, MScore::division/2);
                               break;
                         case IconType::GRACE16_AFTER:
+// ise grace 21
+                              if (data.modifiers &  Qt::ShiftModifier)  {
+                                    score()->setNoteEntryMode(true);
+                                    score()->inputState().graceInputType = NoteType::GRACE16_AFTER;
+                                    score()->inputState().graceInputLen = MScore::division/4;
+                                    data.view->startNoteEntryMode();
+                                    delete e;
+                                    return 0;
+                                    }
+// end ise
                               score()->setGraceNote(ch, pitch(), NoteType::GRACE16_AFTER, MScore::division/4);
                               break;
                         case IconType::GRACE32_AFTER:
+// ise grace 21
+                              if (data.modifiers &  Qt::ShiftModifier)  {
+                                    score()->setNoteEntryMode(true);
+                                    score()->inputState().graceInputType = NoteType::GRACE32_AFTER;
+                                    score()->inputState().graceInputLen = MScore::division/8;
+                                    data.view->startNoteEntryMode();
+                                    delete e;
+                                    return 0;
+                                    }
+// end ise
                               score()->setGraceNote(ch, pitch(), NoteType::GRACE32_AFTER, MScore::division/8);
                               break;
                         case IconType::SBEAM:

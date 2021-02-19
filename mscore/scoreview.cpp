@@ -3237,6 +3237,7 @@ void ScoreView::endNoteEntry()
       {
       InputState& is = _score->inputState();
       is.setNoteEntryMode(false);
+      is.graceInputType = NoteType::NORMAL;   // ise grace 21
       if (is.slur()) {
             const std::vector<SpannerSegment*>& el = is.slur()->spannerSegments();
             if (!el.empty())

@@ -119,6 +119,7 @@ enum class ViewState {
       DRAG_EDIT,
       LASSO,
       NOTE_ENTRY,
+      GRACE_ENTRY,   // ise grace 21
       PLAY,
       ENTRY_PLAY,
 

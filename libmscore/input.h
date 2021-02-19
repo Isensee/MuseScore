@@ -59,6 +59,9 @@ class InputState {
       Segment* nextInputPos() const;
 
    public:
+      NoteType graceInputType  { NoteType::NORMAL }; // ise grace 21
+      int graceInputLen        { 0 };                // ise grace 21
+
       ChordRest* cr() const;
 
       Fraction tick() const;

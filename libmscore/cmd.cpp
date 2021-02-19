@@ -657,8 +657,8 @@ Note* Score::setGraceNote(Chord* ch, int pitch, NoteType type, int len)
 
       undoAddElement(chord);
       // ise grace auto slur
-      // set slur when Shift-Key pressed: läuft ok.
-      if(qApp->keyboardModifiers().testFlag(Qt::ShiftModifier)){
+      // set slur when Alt-Key pressed: läuft ok.
+      if(qApp->keyboardModifiers().testFlag(Qt::AltModifier)){
             Chord* cg = ch->graceNotes().first();
             if (viewer.count()) {
                   if (cg->isGraceAfter())
